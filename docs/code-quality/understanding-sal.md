@@ -12,9 +12,9 @@ ms.locfileid: "87226042"
 ---
 # <a name="understanding-sal"></a>了解 SAL
 
-Microsoft 源代码注释语言（SAL）提供了一组可用于描述函数如何使用其参数的注释、对它们做出的假设，以及在完成时的保证。 批注在标头文件中定义 `<sal.h>` 。 适用于 c + + 的 Visual Studio 代码分析使用 SAL 批注来修改其函数分析。 有关适用于 Windows 驱动程序开发的 SAL 2.0 的详细信息，请参阅[Windows 驱动程序的 sal 2.0 注释](/windows-hardware/drivers/devtest/sal-2-annotations-for-windows-drivers)。
+Microsoft 源代码注释语言（SAL）提供了一组可用于描述函数如何使用其参数的注释、对它们做出的假设，以及在完成时的保证。 批注在标头文件中定义 `<sal.h>` 。 适用于 C + + 的 Visual Studio 代码分析使用 SAL 批注来修改其函数分析。 有关适用于 Windows 驱动程序开发的 SAL 2.0 的详细信息，请参阅[Windows 驱动程序的 sal 2.0 注释](/windows-hardware/drivers/devtest/sal-2-annotations-for-windows-drivers)。
 
-在本机，C 和 c + + 只为开发人员提供了一致的方式来表达意图和不变性。 通过使用 SAL 批注，可以更详细地描述函数，以便使用它们的开发人员可以更好地了解如何使用它们。
+在本机，C 和 C + + 只为开发人员提供了一致的方式来表达意图和不变性。 通过使用 SAL 批注，可以更详细地描述函数，以便使用它们的开发人员可以更好地了解如何使用它们。
 
 ## <a name="what-is-sal-and-why-should-you-use-it"></a>什么是 SAL 以及您为何使用它?
 
@@ -108,7 +108,7 @@ SAL 定义了四种基本类型的参数，这些参数按使用模式分类。
 
 #### <a name="to-use-visual-studio-code-analysis-tools-and-sal"></a>使用 Visual Studio 代码分析工具和 SAL
 
-1. 在 Visual Studio 中，打开包含 SAL 批注的 c + + 项目。
+1. 在 Visual Studio 中，打开包含 SAL 批注的 C + + 项目。
 
 1. 在菜单栏上，选择 "**生成**"、 **"对解决方案运行代码分析**"。
 
@@ -156,7 +156,7 @@ void BadInCaller()
 
 ### <a name="example-the-_in_opt_-annotation"></a>示例： \_ In \_ opt \_ 批注
 
-`_In_opt_`与相同 `_In_` ，不同之处在于允许输入参数为 NULL，因此函数应检查此值。
+`_In_opt_` 与 `_In_` 相同，不同之处在于允许输入参数为 NULL，因此函数应检查此值。
 
 ```cpp
 
@@ -240,7 +240,7 @@ Visual Studio Code 分析验证此函数在取消引用之前检查是否为 NUL
 `_Inout_`用于批注可能由函数更改的指针参数。 指针必须指向有效的已初始化数据，然后才能调用，即使它发生更改，返回的值也必须有效。 批注指定函数可以从单元素缓冲区自由读取和写入。 调用方必须提供缓冲区并对其进行初始化。
 
 > [!NOTE]
-> 与一样 `_Out_` ， `_Inout_` 必须应用于可修改的值。
+> 与 `_Out_` 一样， `_Inout_` 必须应用于可修改的值。
 
 ```cpp
 void InOutCallee(_Inout_ int *pInt)
@@ -327,7 +327,7 @@ Visual Studio Code 分析验证调用方传递的非 NULL 指针 `*pInt` ，并�
 
 ### <a name="example-the-_outptr_opt_-annotation"></a>示例： \_ Outptr \_ opt \_ 批注
 
-`_Outptr_opt_`与相同 `_Outptr_` ，不同之处在于参数是可选的，调用方可以传入参数的 NULL 指针。
+`_Outptr_opt_`与 `_Outptr_` 相同，不同之处在于参数是可选的，调用方可以传入参数的 NULL 指针。
 
 ```cpp
 void GoodOutPtrOptCallee(_Outptr_opt_ int **pInt)
@@ -359,7 +359,7 @@ Visual Studio Code 分析验证此函数在取消引用之前是否检查 NULL `
 
 ### <a name="example-the-_success_-annotation-in-combination-with-_out_"></a>示例： \_ 成功 \_ 批注与 \_ Out 组合\_
 
-批注可应用于大多数对象。  特别是，您可以批注整个函数。  函数最明显的特征之一是它可以成功或失败。 但就像缓冲区及其大小之间的关联，C/c + + 无法表达函数的成功或失败。 通过使用 `_Success_` 批注，可以说出函数的成功情况。  批注的参数 `_Success_` 只是一个表达式，该表达式为 true 时表示函数已成功。 表达式可以是批注分析器可处理的任何内容。 当函数返回后，批注的效果仅适用于函数成功。 此示例演示如何 `_Success_` 与 `_Out_` 进行交互以执行正确的操作。 可以使用关键字 **`return`** 来表示返回值。
+批注可应用于大多数对象。  特别是，您可以批注整个函数。  函数最明显的特征之一是它可以成功或失败。 但就像缓冲区及其大小之间的关联，C/C + + 无法表达函数的成功或失败。 通过使用 `_Success_` 批注，可以说出函数的成功情况。  批注的参数 `_Success_` 只是一个表达式，该表达式为 true 时表示函数已成功。 表达式可以是批注分析器可处理的任何内容。 当函数返回后，批注的效果仅适用于函数成功。 此示例演示如何 `_Success_` 与 `_Out_` 进行交互以执行正确的操作。 可以使用关键字 **`return`** 来表示返回值。
 
 ```cpp
 _Success_(return != false) // Can also be stated as _Success_(return)
